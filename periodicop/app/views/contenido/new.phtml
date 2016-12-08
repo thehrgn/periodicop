@@ -1,0 +1,122 @@
+<?php
+
+use Phalcon\Tag;
+use Phalcon\Forms\Form;
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Element\Select;
+use Phalcon\Forms\Element\TextArea;
+use Phalcon\Forms\Element\File;
+use Phalcon\Forms\Element\Hidden;
+
+
+class NewForm extends Form
+{
+	public function initialize()
+	{
+
+		//Obtencion de categorias
+		$categorias = Categorias::find();
+		 //Categorias::find(["order"=>"id"]);
+
+		$this->tag->setDoctype(Tag::HTML401_STRICT);
+		$this->setEntity($this);
+
+		//Abrir FORM
+		//echo $this->tag->form('Contenido/save');
+
+		echo "<div class='form-group'>";
+
+		echo $this->tag->form(
+			array(
+			"contenido/save",
+			"enctype"	=> "multipart/form-data",
+			"name"		=> "nuevo",
+			"id"		=> "nuevo"
+			)
+		);
+
+
+
+
+		$titulo = new Text("titulo",[
+							//TAG'S de HTML
+							"required"		=> true,
+							"size"				=> 200,
+							"maxlength"		=> 250,
+							"placeholder"	=> 	"Ingrese un titulo",
+							"class"				=> "form-control"
+							]
+							);
+
+
+		$cuerpo = new TextArea("cuerpo",[
+									//TAG'S de HTML
+									"required"		=> true,									
+									//"size"			=> 20,
+									//maxlength"		=> 30,
+									"placeholder"	=>"Ingrese cuerpo de noticia",
+									"class"			=> "form-control"
+									]
+									);
+
+
+		$select = new Select(
+			//Nombre del TAG
+			"categoria",
+			//DATASOURCE
+			$categorias,
+			//id=>value
+			[
+			"using"=> ["id","nombre",]
+			]
+			);
+
+		$image_url = new File("image_url",
+				[
+				"required"	=> true,
+				"multipart"	=> true
+				]
+			);
+
+
+
+
+
+		$this->add($titulo);
+		$this->add($cuerpo);
+		$this->add($select);
+		$this->add($image_url);
+
+		$this->add(new Hidden("opcion", ["value" => "nuevo" ] ));
+
+		echo "<h3><span class='label label-info' for='titulo'>Titulo</span></h3>";
+		echo $this->render("titulo");
+
+
+		echo "<h3><span class='label label-default' for='cuerpo'>Cuerpo</span></h3>";
+		echo $this->render("cuerpo");
+
+
+		echo "<h3><span class='label label-primary' for='categoria'>Categoria</span></h3>";
+		echo $this->render("categoria");
+
+
+		echo "<h3><span class='label label-primary' for='image_url'>Imagen</span></h3>";
+		echo $this->render('image_url');
+
+		echo $this->render('opcion');
+
+
+		echo $this->tag->submitButton(["type"=>"submit","class"=>"btn btn-success","value"=>"Guardar"]);
+		$this->tag->endForm();
+	}
+}
+
+//Creamos una instancia de NewForm
+//echo $variable["rr"];
+
+echo "<div class='page-header'>
+		  <center><h1>Nuevo Contenido</h1></center>
+		</div>";
+$form = new NewForm();
+?>
