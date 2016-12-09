@@ -24,18 +24,25 @@ class ContenidoController extends \Phalcon\Mvc\Controller
 
       $opcion = $this->request->getPost('opcion');
 
-
       if($opcion == "editar")
         $c = Contenidos::findFirst($this->request->getPost('id'));
       else
           $c = new Contenidos();
-
       $c->titulo    = $this->request->getPost('titulo');
       $c->cuerpo    = $this->request->getPost('cuerpo');
-      $c->image_url = "imagen.png";
       $c->categoria_id =  $this->request->getPost('categoria');
-      //$c->created   =  date("Y-m-d H:i:s");
       $c->modified  =  date("Y-m-d H:i:s");
+
+      //Subir archivos para nuevo y actualizar
+      if($this->request->hasFiles())
+      {
+        foreach ($this->request->getUploadedFiles() as $file)
+          {
+          $file->moveTo('img/' . $file->getName());
+          $c->image_url = $file->getName();
+          }
+      }
+
 
       if($opcion == "editar")
       {
@@ -46,20 +53,6 @@ class ContenidoController extends \Phalcon\Mvc\Controller
         $c->save();
       }
 
-
-
-
-
-	  /*$this->dispatcher->forward(
-	  		[
-            "controller"	=> "contenido",
-            "action"		=> "index"
-       		]
-	  	);*/
-
-
-
-      //echo "Opcion: ".$this->request->getPost('opcion');
 		$this->response->redirect("contenido/index");
    	}
 

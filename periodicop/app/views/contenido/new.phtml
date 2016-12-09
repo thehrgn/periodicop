@@ -51,7 +51,7 @@ class NewForm extends Form
 
 		$cuerpo = new TextArea("cuerpo",[
 									//TAG'S de HTML
-									"required"		=> true,									
+									"required"		=> true,
 									//"size"			=> 20,
 									//maxlength"		=> 30,
 									"placeholder"	=>"Ingrese cuerpo de noticia",
@@ -93,15 +93,15 @@ class NewForm extends Form
 		echo $this->render("titulo");
 
 
-		echo "<h3><span class='label label-default' for='cuerpo'>Cuerpo</span></h3>";
+		echo "<h3><span class='label label-info' for='cuerpo'>Cuerpo</span></h3>";
 		echo $this->render("cuerpo");
 
 
-		echo "<h3><span class='label label-primary' for='categoria'>Categoria</span></h3>";
+		echo "<h3><span class='label label-info' for='categoria'>Categoria</span></h3>";
 		echo $this->render("categoria");
 
 
-		echo "<h3><span class='label label-primary' for='image_url'>Imagen</span></h3>";
+		echo "<h3><span class='label label-info' for='image_url'>Imagen</span></h3>";
 		echo $this->render('image_url');
 
 		echo $this->render('opcion');

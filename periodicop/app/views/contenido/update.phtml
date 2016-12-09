@@ -69,9 +69,11 @@ class NewForm extends Form
 			$categorias,
 			//id=>value
 			[
-			"using"=> ["id","nombre",]
+			"using"=> ["id","nombre"],
+			"value" => $contenido->categoria_id
 			]
 			);
+
 
 		$image_url = new File("image_url",
 				[
@@ -115,4 +117,4 @@ class NewForm extends Form
 echo "<div class='page-header'>
 		  <center><h1>Editar Contenido</h1></center>
 		</div>";
-$form = new NewForm(Contenidos::findFirst($id),["id"=> $id, "opcion"=>"editar"]);
+$form = new NewForm(Contenidos::findFirst($id) ,["id"=> $id, "opcion"=>"editar"]);
